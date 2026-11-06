@@ -1,0 +1,9 @@
+@tailwind base;@tailwind components;@tailwind utilities;
+:root{--font-serif:'Fraunces',Georgia,serif;--font-sans:'Inter',system-ui,sans-serif;--font-mono:'JetBrains Mono',ui-monospace,monospace}
+body{background:#101827;color:#F5F1E9;font-family:var(--font-sans)}
+.glass{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(10px);transition:background .2s,transform .1s}
+.glass:hover{background:rgba(185,154,106,.22)}.glass:active{transform:scale(.97)}
+.card{background:#16191f;border:1px solid rgba(255,255,255,.08);border-radius:14px}
+input,select,textarea{background:#111318;border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:.6rem .8rem;width:100%;color:#F5F1E9}
+input:focus,select:focus,textarea:focus{outline:2px solid #B99A6A}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
