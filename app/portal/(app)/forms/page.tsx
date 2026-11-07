@@ -1,5 +1,0 @@
-import Link from "next/link"; import { supabaseServer } from "@/lib/supabase/server"; import { Title, Badge, Empty, fmtDate } from "@/components/ui";
-export default async function Forms() {
-  const { data } = await supabaseServer().from("form_assignments").select("id,status,submitted_at,form:forms(title,description)").order("created_at", { ascending: false });
-  return (<><Title crumb="Forms">Forms for you</Title>{data?.length ? <div className="panel divide-y divide-white/[.06]">{data.map((a: any) => <div key={a.id} className="flex items-center justify-between gap-4 px-5 py-4"><div><p>{a.form?.title}</p><p className="text-sm text-[#8b919b]">{a.form?.description}</p></div><div className="flex items-center gap-4"><Badge s={a.status} />{a.status === "submitted" ? <span className="num text-sm text-[#8b919b]">{fmtDate(a.submitted_at)}</span> : <Link className="btn btn-sm" href={`/portal/forms/${a.id}`}>{a.status === "draft" ? "Continue" : "Start"}</Link>}</div></div>)}</div> : <Empty>No forms have been assigned to you.</Empty>}</>);
-}

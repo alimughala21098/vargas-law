@@ -1,5 +1,0 @@
-import { supabaseServer } from "@/lib/supabase/server"; import { Title, Empty, fmtDT } from "@/components/ui"; import { markAllRead } from "../actions";
-export default async function Notifications() {
-  const { data } = await supabaseServer().from("notifications").select("*").order("created_at", { ascending: false }).limit(50);
-  return (<><Title crumb="Notifications" right={<form action={markAllRead}><button className="btn btn-glass btn-sm">Mark all as read</button></form>}>Notifications</Title>{data?.length ? <div className="panel divide-y divide-white/[.06]">{data.map((n: any) => <div key={n.id} className="flex gap-3 px-5 py-4"><span className={`mt-2 h-2 w-2 shrink-0 rounded-full ${n.read_at ? "bg-white/15" : "bg-[#B99A6A]"}`} /><div><p>{n.title}</p><p className="text-sm text-[#8b919b]">{n.body}</p><p className="num mt-1 text-xs text-[#6b717c]">{fmtDT(n.created_at)}</p></div></div>)}</div> : <Empty>You are all caught up.</Empty>}<p className="mt-4 text-xs text-[#8b919b]">Email, SMS and WhatsApp reminders turn on when the firm connects those providers.</p></>);
-}
