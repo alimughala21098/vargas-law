@@ -1,0 +1,5 @@
+import Link from "next/link"; import { supabaseServer } from "@/lib/supabase/server"; import { Title, Badge, Empty, fmtDate } from "@/components/ui";
+export default async function Cases() {
+  const { data } = await supabaseServer().from("cases").select("id,reference,category,stage,updated_at,attorney:profiles!cases_attorney_id_fkey(full_name),paralegal:profiles!cases_paralegal_id_fkey(full_name)").order("updated_at", { ascending: false });
+  return (<><Title crumb="My Cases">Your cases</Title>{data?.length ? <div className="panel overflow-x-auto"><table><thead><tr><th>Reference</th><th>Category</th><th>Attorney</th><th>Status</th><th>Updated</th></tr></thead><tbody>{data.map((c: any) => <tr key={c.id}><td><Link className="mono text-[#B99A6A]" href={`/portal/cases/${c.id}`}>{c.reference}</Link></td><td>{c.category}</td><td>{c.attorney?.full_name ?? "To be assigned"}</td><td><Badge s={c.stage} /></td><td className="num text-[#8b919b]">{fmtDate(c.updated_at)}</td></tr>)}</tbody></table></div> : <Empty>You have no cases yet. The firm will open one after your engagement.</Empty>}</>);
+}

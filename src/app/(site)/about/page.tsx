@@ -1,0 +1,10 @@
+import Link from "next/link"; import Reveal from "@/components/Reveal"; import { Arrow } from "@/components/Nav"; import { SERVICES, STEPS } from "@/lib/content";
+export const metadata = { title: "About" };
+export default function About() {
+  return (<div className="mx-auto max-w-6xl px-6 pt-36"><h1 className="max-w-3xl text-5xl leading-[1.05] sm:text-7xl">Immigration law, explained like a person would explain it.</h1>
+    <div className="mt-16 grid gap-12 lg:grid-cols-2"><Reveal><p className="text-lg text-[#C9CDD3]">Vargas Law Group focuses on immigration. We help individuals, families, and businesses understand their options, prepare their cases, and keep moving through a process that is rarely simple.</p><p className="mt-5 text-[#A6ABB3]">[Firm history, founding story, and office details pending confirmation from the firm]</p></Reveal>
+      <Reveal delay={100}><h2 className="text-3xl">Our approach</h2><ul className="mt-5 space-y-4 text-[#A6ABB3]"><li><b className="font-medium text-white">Clear language.</b> We explain each step in English or Spanish.</li><li><b className="font-medium text-white">One place for your case.</b> Documents, messages, appointments, and invoices live in the client portal.</li><li><b className="font-medium text-white">Honest expectations.</b> We never guarantee outcomes, and we tell you what we do not know.</li></ul></Reveal></div>
+    <section className="mt-28"><h2 className="text-3xl">Practice areas</h2><div className="mt-8 flex flex-wrap gap-3">{SERVICES.map(s => <Link key={s.slug} href={`/immigration-services/${s.slug}`} className="btn btn-glass">{s.title}</Link>)}</div></section>
+    <section className="mt-28"><h2 className="text-3xl">How we work with you</h2><ol className="mt-8 grid gap-4 md:grid-cols-5">{STEPS.map((s, i) => <li key={s.t} className="panel p-5"><span className="mono text-xs text-[#B99A6A]">0{i + 1}</span><p className="mt-4 font-serif text-lg">{s.t}</p></li>)}</ol></section>
+    <div className="mt-24 text-center"><Link href="/book-consultation" className="btn">Book a Consultation<Arrow /></Link></div></div>);
+}
