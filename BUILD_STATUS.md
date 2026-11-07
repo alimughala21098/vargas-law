@@ -1,17 +1,17 @@
-# BUILD_STATUS (v0.2, builds and typechecks cleanly)
+# BUILD_STATUS v0.3 (typechecks, production build passes, key pages screenshot-checked)
 
-## Working (needs your Supabase + env vars)
-- Public: home (WebGL globe + reduced-motion fallback), services index + 7 service pages, contact, consultation request form (saved to DB)
-- Auth: invite-only email/password login, middleware gate on /portal, /workspace, /admin
-- Portal: my cases, invoices, Pay now (Stripe Checkout)
-- Workspace: 10-stage case pipeline (RLS-scoped)
-- Admin: overview counts; Payment gateways (encrypted credentials, real Stripe connection test, test/live separation, live-mode confirmation, activate/disable, transaction list, audit log)
-- Webhook: signature-verified, idempotent, updates transaction + invoice
-- DB: RLS on all client data, DB-level double-booking constraint, append-only audit log
+## Built and working (needs your Supabase project)
+- Public: home (WebGL dot-matrix globe with route arcs and labels, portal preview, services, process, FAQ, team, CTA), about, team, 7 service pages with process/documents/FAQ, resources + 3 starter guides with search, FAQ, contact (saved to DB), privacy/terms/accessibility placeholders, EN/ES switch for site chrome and key sections, custom cursor, scroll reveals, floating CTA, reduced-motion fallbacks
+- Booking: 6-step wizard, server-side slots, DB-level double-booking guard, .ics download, cancel/reschedule link
+- Auth: invite-only login, forgot/reset password, route protection
+- Portal: overview, cases + timeline, documents (private storage, versions, signed downloads), messages, appointments, forms (save draft / submit), payments (Stripe checkout), notifications, profile, data-export request, help
+- Workspace: overview, kanban pipeline, cases (create/assign/stage/notes/tasks), tasks, document review (approve/revise/reject with client comment), messages with internal notes, clients, calendar with confirm/cancel, forms builder + assignment, invoices, reports from live data
+- Admin: overview, users (invite, roles, suspend), permission matrix, cases, inquiries, FAQ + team CMS, audit log, system settings status, payment gateways (encrypted credentials, real Stripe connection test, test/live split, live confirmation, activate/disable/remove, transactions, webhooks log)
+- Security: RLS on all tables, server-side permission checks, append-only audit log, verified idempotent webhooks
 
-## Not built yet (honest list)
-- Spanish language switching (strings file exists, not wired), CMS/blog/FAQ/team pages (content is placeholder in src/lib/content.ts)
-- Booking is a *request* (staff confirm); no availability engine, no email/SMS
-- Document upload/storage UI, messaging UI, forms, tasks, calendar, reports, user/role admin UI, refunds, MFA, e-signature, video
-- PayPal/Square adapters (interface ready), webhook/transaction detail pages
-- Not run against a live Supabase or Stripe yet; first real test is yours
+## Not built (honest list)
+- Email/SMS/WhatsApp sending, video rooms, e-signature, malware scanning (status page shows them as not configured)
+- Spanish for long-form service/guide text (pending approved translation); no blog/page CMS (guides live in code)
+- Refunds, payment plans, pay-at-booking, PayPal/Square adapters, MFA/passkey UI (enable MFA in Supabase), family/sponsor access, availability rules per attorney (one default schedule), user-facing session management
+- Not tested against a live Supabase or Stripe; first real run is yours
+- Firm details (attorneys, address, phone, testimonials) are placeholders by design

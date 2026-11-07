@@ -1,0 +1,11 @@
+import { supabaseServer, supabaseAdmin } from "@/lib/supabase/server"; import { Title, Empty, fmtDT } from "@/components/ui"; import { sendMessage } from "../actions"; import Link from "next/link";
+export const dynamic = "force-dynamic";
+export default async function Messages({ searchParams }: { searchParams: { case?: string } }) {
+  const sb = supabaseServer(); const { data: { user } } = await sb.auth.getUser(); const { data: cases } = await sb.from("cases").select("id,reference,category"); const cur = searchParams.case ?? cases?.[0]?.id;
+  const { data: cv } = cur ? await sb.from("conversations").select("id").eq("case_id", cur).maybeSingle() : { data: null };
+  const { data: msgs } = cv ? await sb.from("messages").select("id,body,created_at,sender_id,sender:profiles(full_name)").eq("conversation_id", cv.id).order("created_at") : { data: [] as any[] };
+  if (cv) await supabaseAdmin().from("messages").update({ read_at: new Date() }).eq("conversation_id", cv.id).neq("sender_id", user!.id).is("read_at", null);
+  return (<><Title crumb="Messages">Secure messages</Title>{!cases?.length ? <Empty>Messaging opens when the firm creates your case.</Empty> : <div className="grid gap-4 lg:grid-cols-[240px_1fr]"><div className="panel p-2">{cases.map((c: any) => <Link key={c.id} href={`/portal/messages?case=${c.id}`} className={`block rounded-lg px-3 py-2.5 text-sm ${c.id === cur ? "bg-white/[.07]" : "text-[#A6ABB3] hover:bg-white/[.04]"}`}><span className="mono block text-xs text-[#B99A6A]">{c.reference}</span>{c.category}</Link>)}</div>
+    <div className="panel flex min-h-[420px] flex-col"><div className="flex-1 space-y-3 p-5">{msgs?.length ? msgs.map((m: any) => <div key={m.id} className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm ${m.sender_id === user!.id ? "ml-auto bg-[#B99A6A]/20" : "bg-white/[.06]"}`}><p>{m.body}</p><p className="mt-1 text-xs text-[#8b919b]">{m.sender?.full_name ?? "Firm"} · {fmtDT(m.created_at)}</p></div>) : <p className="text-sm text-[#8b919b]">No messages yet. Write to your team below.</p>}</div>
+      <form action={sendMessage} className="flex gap-3 border-t border-white/[.08] p-4"><input type="hidden" name="case_id" value={cur} /><input className="input" name="body" placeholder="Write a message" required maxLength={4000} /><button className="btn btn-sm">Send</button></form></div></div>}</>);
+}
