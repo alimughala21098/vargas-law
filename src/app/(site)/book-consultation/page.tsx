@@ -1,2 +1,0 @@
-import BookingWizard from "@/components/BookingWizard"; export const metadata = { title: "Book a Consultation" };
-export default function Book() { return (<div className="mx-auto max-w-5xl px-6 pt-36"><h1 className="text-5xl sm:text-7xl">Book a consultation</h1><p className="mt-4 max-w-xl text-[#A6ABB3]">Choose a format and time. The firm confirms every request by email.</p><div className="mt-12"><BookingWizard /></div></div>); }

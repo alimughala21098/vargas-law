@@ -1,3 +1,0 @@
-import Link from "next/link"; import { Nav, Footer } from "@/components/Nav"; import { SERVICES } from "@/lib/content";
-export default function Services() { return (<><Nav /><main className="mx-auto max-w-4xl px-5 pt-32"><h1 className="font-serif text-5xl">Immigration Services</h1>
-  <ul className="mt-10 divide-y divide-white/10">{SERVICES.map(s => <li key={s.slug}><Link href={`/immigration-services/${s.slug}`} className="block py-6 hover:text-bronze"><span className="font-serif text-2xl">{s.title}</span><span className="mt-1 block text-sm text-muted">{s.blurb}</span></Link></li>)}</ul></main><Footer /></>); }
