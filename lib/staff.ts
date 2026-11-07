@@ -1,0 +1,7 @@
+import { requirePerm, supabaseAdmin, supabaseServer } from "@/lib/supabase/server";
+export async function staffCtx(perm: string) { const user = await requirePerm(perm); return { user, db: supabaseAdmin(), sb: supabaseServer() }; }
+export async function assertCase(sb: any, id: string) { const { data } = await sb.from("cases").select("id,client_id,reference").eq("id", id).maybeSingle(); if (!data) throw new Error("No access to this case"); return data as { id: string; client_id: string; reference: string }; }
+export const notify = (db: any, userId: string, title: string, body?: string) => db.from("notifications").insert({ user_id: userId, title, body });
+export const STAGES = ["new_inquiry", "consultation_scheduled", "initial_assessment", "engagement_onboarding", "document_collection", "preparation", "filed_submitted", "awaiting_decision", "completed", "closed"];
+export async function clientsList(db: any) { const { data } = await db.from("user_roles").select("user_id,profile:profiles(id,full_name,phone,status,preferred_language)").eq("role", "client"); return (data ?? []).map((r: any) => r.profile).filter(Boolean); }
+export async function staffList(db: any) { const { data } = await db.from("user_roles").select("role,profile:profiles(id,full_name)").in("role", ["attorney", "paralegal"]); return (data ?? []).map((r: any) => ({ ...r.profile, role: r.role })).filter((p: any) => p.id); }

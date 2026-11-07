@@ -1,0 +1,3 @@
+import ContactForm from "@/components/ContactForm"; export const metadata = { title: "Contact" };
+export default function Contact() { return (<div className="mx-auto max-w-5xl px-6 pt-36"><h1 className="text-5xl sm:text-7xl">Contact the firm</h1><div className="mt-12 grid gap-8 lg:grid-cols-[1fr_300px]"><ContactForm />
+  <aside className="space-y-4 text-sm text-[#A6ABB3]"><div className="panel p-5"><p className="text-white">Office</p><p className="mt-2">[Verified office address pending confirmation]</p></div><div className="panel p-5"><p className="text-white">Phone and WhatsApp</p><p className="mt-2">[Verified numbers pending confirmation]</p></div></aside></div></div>); }

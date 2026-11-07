@@ -1,0 +1,5 @@
+import Link from "next/link"; import { supabaseAdmin } from "@/lib/supabase/server"; import { Title, Badge, Empty, fmtDate } from "@/components/ui"; export const dynamic = "force-dynamic";
+export default async function AdminCases() {
+  const { data } = await supabaseAdmin().from("cases").select("id,reference,category,stage,created_at,client:profiles!cases_client_id_fkey(full_name),attorney:profiles!cases_attorney_id_fkey(full_name)").order("created_at", { ascending: false });
+  return (<><Title crumb="Cases">All firm cases</Title>{data?.length ? <div className="panel overflow-x-auto"><table><thead><tr><th>Reference</th><th>Client</th><th>Category</th><th>Attorney</th><th>Stage</th><th>Opened</th></tr></thead><tbody>{data.map((c: any) => <tr key={c.id}><td><Link className="mono text-[#B99A6A]" href={`/workspace/cases/${c.id}`}>{c.reference}</Link></td><td>{c.client?.full_name}</td><td>{c.category}</td><td>{c.attorney?.full_name ?? "Unassigned"}</td><td><Badge s={c.stage} /></td><td className="num text-[#8b919b]">{fmtDate(c.created_at)}</td></tr>)}</tbody></table></div> : <Empty>No cases yet.</Empty>}</>);
+}
